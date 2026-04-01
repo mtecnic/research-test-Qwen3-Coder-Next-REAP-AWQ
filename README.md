@@ -1,3 +1,20 @@
+---
+language:
+  - en
+license: other
+tags:
+  - moe
+  - pruning
+  - awq
+  - quantized
+  - qwen3
+  - reap
+  - expert-pruning
+base_model: Qwen/Qwen3-Coder-Next
+pipeline_tag: text-generation
+library_name: transformers
+---
+
 # Research Test: Qwen3-Coder-Next-REAP-AWQ
 
 > Expert-pruned and AWQ-quantized Qwen3-Coder-Next using the REAP (Robust Efficient Architecture Pruning) pipeline. 20% of MoE experts removed via diverse-calibration saliency analysis, then quantized to W4A16 for efficient inference on consumer GPUs.
