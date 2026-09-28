@@ -247,7 +247,7 @@ Nothing here alters or adds restrictions to the base model's grant.
 ## Citation
 
 ```bibtex
-@misc{waive2025reap,
+@misc{author2025reap,
   title={Research Test: REAP Expert Pruning of Qwen3-Coder-Next},
   author={wAIve},
   year={2025},
