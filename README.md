@@ -1,7 +1,8 @@
 ---
 language:
   - en
-license: other
+license: apache-2.0
+license_link: https://huggingface.co/Qwen/Qwen3-Coder-Next/blob/main/LICENSE
 tags:
   - moe
   - pruning
@@ -17,7 +18,7 @@ library_name: transformers
 
 # Research Test: Qwen3-Coder-Next-REAP-AWQ
 
-> Expert-pruned and AWQ-quantized Qwen3-Coder-Next using the REAP (Robust Efficient Architecture Pruning) pipeline. 20% of MoE experts removed via diverse-calibration saliency analysis, then quantized to W4A16 for efficient inference on consumer GPUs.
+> Expert-pruned and AWQ-quantized Qwen3-Coder-Next using the REAP (Router-weighted Expert Activation Pruning) pipeline. 20% of MoE experts removed via diverse-calibration saliency analysis, then quantized to W4A16 for efficient inference on consumer GPUs.
 
 **Status:** Research/Experimental
 
@@ -61,7 +62,7 @@ By measuring expert importance empirically, we can remove the least impactful ex
 
 ### REAP Metric
 
-REAP (Robust Efficient Architecture Pruning) scores each expert based on:
+REAP (Router-weighted Expert Activation Pruning) scores each expert based on:
 
 ```
 REAP(expert) = sum(activation_norm * router_weight) / total_tokens
@@ -213,14 +214,35 @@ calibration_samples: 256
 
 ## Acknowledgments
 
-- **REAP Framework** — [Cerebras](https://www.cerebras.net/) for the pruning methodology
-- **Base Model** — [Qwen](https://github.com/QwenLM/Qwen3) for Qwen3-Coder-Next
-- **AWQ** — [MIT HAN Lab](https://github.com/mit-han-lab/llm-awq) for Activation-Aware Weight Quantization
-- **vLLM** — [vLLM Project](https://github.com/vllm-project/vllm) for efficient MoE serving
+None of the methods used here are mine. This repository applies published work to a
+specific model and reports what happened.
+
+| Contribution | Credit | Licence |
+|---|---|---|
+| **REAP** — the expert-pruning criterion and the super-expert preservation idea | Lasby, Lazarevich, Sinnadurai, Lie, Ioannou & Thangarasa (Cerebras Research) — [paper](https://arxiv.org/abs/2510.13999) · [code](https://github.com/CerebrasResearch/reap) | Apache-2.0 |
+| **Base model** — Qwen3-Coder-Next, the 149 GB BF16 MoE everything here starts from | [Qwen team, Alibaba Cloud](https://huggingface.co/Qwen/Qwen3-Coder-Next) | Apache-2.0 |
+| **AWQ** — activation-aware weight quantization, the W4A16 step | Lin, Tang, Tang, Yang, Chen, Wang, Xiao, Dang, Gan & Han (MIT HAN Lab) — [paper](https://arxiv.org/abs/2306.00978) · [code](https://github.com/mit-han-lab/llm-awq) | MIT |
+| **vLLM** — the MoE serving path used to evaluate the result | [vLLM Project](https://github.com/vllm-project/vllm) | Apache-2.0 |
 
 ## License
 
-This model inherits the license of the base Qwen3-Coder-Next model. See the [Qwen license](https://huggingface.co/Qwen/Qwen3-Coder-Next) for details.
+**Apache-2.0**, inherited from the base model.
+
+Qwen3-Coder-Next is released by the Qwen team under the
+[Apache License 2.0](https://huggingface.co/Qwen/Qwen3-Coder-Next/blob/main/LICENSE). This
+model is a derivative work of it — experts pruned, then weights quantized — so it carries
+the same terms, and so does anything you derive from it in turn. The REAP methodology
+(Apache-2.0) and AWQ (MIT) are both permissively licensed and compatible with that.
+
+In short: you may use, modify, redistribute and build commercially on this, provided you
+retain the copyright and licence notices and state any changes you make. See
+[LICENSE](LICENSE) for the full text.
+
+Nothing here alters or adds restrictions to the base model's grant.
+
+> ⚠️ **Research status.** This is an experimental compression run, not a supported release.
+> It is published so the method and the numbers can be checked, not because the artifact is
+> validated for production use. See **Previous Attempts** above — the 40% run failed.
 
 ## Citation
 
@@ -230,5 +252,32 @@ This model inherits the license of the base Qwen3-Coder-Next model. See the [Qwe
   author={wAIve},
   year={2025},
   url={https://github.com/mtecnic/research-test-Qwen3-Coder-Next-REAP-AWQ}
+}
+```
+
+If you use this work, please also cite the methods it applies — they are the substance:
+
+```bibtex
+@misc{lasby2025reap,
+  title={REAP the Experts: Why Pruning Prevails for One-Shot MoE compression},
+  author={Lasby, Mike and Lazarevich, Ivan and Sinnadurai, Nish and Lie, Sean
+          and Ioannou, Yani and Thangarasa, Vithursan},
+  year={2025},
+  eprint={2510.13999},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2510.13999}
+}
+
+@inproceedings{lin2024awq,
+  title={AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration},
+  author={Lin, Ji and Tang, Jiaming and Tang, Haotian and Yang, Shang and Chen, Wei-Ming
+          and Wang, Wei-Chen and Xiao, Guangxuan and Dang, Xingyu and Gan, Chuang
+          and Han, Song},
+  booktitle={Proceedings of Machine Learning and Systems (MLSys)},
+  year={2024},
+  eprint={2306.00978},
+  archivePrefix={arXiv},
+  url={https://arxiv.org/abs/2306.00978}
 }
 ```
